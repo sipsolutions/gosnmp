@@ -1,4 +1,4 @@
-// Copyright 2012 The GoSNMP Authors. All rights reserved.  Use of this
+// Copyright 2012-2014 The GoSNMP Authors. All rights reserved.  Use of this
 // source code is governed by a BSD-style license that can be found in the
 // LICENSE file.
 
@@ -9,7 +9,7 @@ import (
 	"log"
 	"time"
 
-	g "github.com/gosnmp/gosnmp"
+	g "github.com/sipsolutions/gosnmp"
 )
 
 func main() {
@@ -19,9 +19,9 @@ func main() {
 		Target:        "192.168.91.20",
 		Port:          161,
 		Version:       g.Version3,
+		Timeout:       time.Duration(30) * time.Second,
 		SecurityModel: g.UserSecurityModel,
 		MsgFlags:      g.AuthPriv,
-		Timeout:       time.Duration(30) * time.Second,
 		SecurityParameters: &g.UsmSecurityParameters{UserName: "user",
 			AuthenticationProtocol:   g.SHA,
 			AuthenticationPassphrase: "password",

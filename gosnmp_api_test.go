@@ -1,4 +1,4 @@
-// Copyright 2012 The GoSNMP Authors. All rights reserved.  Use of this
+// Copyright 2012-2018 The GoSNMP Authors. All rights reserved.  Use of this
 // source code is governed by a BSD-style license that can be found in the
 // LICENSE file.
 
@@ -7,19 +7,18 @@
 // IMPORTANT: If you're modifying _any_ existing code in this file, you
 // should be asking yourself about API compatibility!
 
-//go:build all || api
 // +build all api
 
 package gosnmp_test // force external view
 
 import (
-	"io"
+	"io/ioutil"
 	"log"
 	"net"
 	"testing"
 	"time"
 
-	"github.com/gosnmp/gosnmp"
+	"github.com/sipsolutions/gosnmp"
 )
 
 func TestAPIConfigTypes(t *testing.T) {
@@ -31,10 +30,11 @@ func TestAPIConfigTypes(t *testing.T) {
 	g.Version = gosnmp.Version2c
 	g.Timeout = time.Duration(0)
 	g.Retries = 0
+	g.Logger = log.New(ioutil.Discard, "", 0)
 	g.MaxOids = 0
 	g.MaxRepetitions = 0
 	g.NonRepeaters = 0
-	g.Logger = gosnmp.NewLogger(log.New(io.Discard, "", 0))
+
 	var c net.Conn
 	c = g.Conn
 	_ = c

@@ -7,9 +7,10 @@ package main
 import (
 	"fmt"
 	"log"
-	"strings"
 	"strconv"
-	g "github.com/gosnmp/gosnmp"
+	"strings"
+
+	g "github.com/sipsolutions/gosnmp"
 )
 
 func main() {
@@ -36,7 +37,7 @@ func main() {
 			value := variable.Value.([]byte)
 			if strings.Contains(strconv.Quote(string(value)), "\\x") {
 				tmp := ""
-                for i := 0; i < len(value); i++ {
+				for i := 0; i < len(value); i++ {
 					tmp += fmt.Sprintf("%v", value[i])
 					if i != (len(value) - 1) {
 						tmp += " "

@@ -1,9 +1,9 @@
-vma/gosnmp
-==========
+sipsolutions/gosnmp
+===================
 
-This fork adds context wrappers to soniah/gosnmp public api.
+This fork adds context wrappers to gosnmp public api.
 
-[![GoDoc](https://godoc.org/github.com/vma/gosnmp?status.png)](http://godoc.org/github.com/vma/gosnmp)
+[![GoDoc](https://godoc.org/github.com/sipsolutions/gosnmp?status.png)](http://godoc.org/github.com/sipsolutions/gosnmp)
 
 gosnmp
 ======

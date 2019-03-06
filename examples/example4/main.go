@@ -9,7 +9,8 @@ import (
 	"log"
 	"os"
 	"time"
-	g "github.com/gosnmp/gosnmp"
+
+	g "github.com/sipsolutions/gosnmp"
 )
 
 const (

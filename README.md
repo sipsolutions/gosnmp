@@ -1,3 +1,10 @@
+vma/gosnmp
+==========
+
+This fork adds context wrappers to soniah/gosnmp public api.
+
+[![GoDoc](https://godoc.org/github.com/vma/gosnmp?status.png)](http://godoc.org/github.com/vma/gosnmp)
+
 gosnmp
 ======
 [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/avelino/awesome-go#networking)

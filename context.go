@@ -14,7 +14,7 @@ type snmpResult struct {
 func (x *GoSNMP) DialWithCtx(ctx context.Context) error {
 	errCh := make(chan error)
 	go func() {
-		errCh <- x.connect("udp")
+		errCh <- x.connect("")
 	}()
 	select {
 	case <-ctx.Done():

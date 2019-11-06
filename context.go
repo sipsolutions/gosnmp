@@ -18,7 +18,9 @@ func (x *GoSNMP) DialWithCtx(ctx context.Context) error {
 	}()
 	select {
 	case <-ctx.Done():
-		x.Conn.Close()
+		if x.Conn != nil {
+			x.Conn.Close()
+		}
 		return fmt.Errorf("request cancelled while connecting")
 	case err := <-errCh:
 		return err
@@ -34,7 +36,9 @@ func (x *GoSNMP) GetWithCtx(ctx context.Context, oids []string) (result *SnmpPac
 	}()
 	select {
 	case <-ctx.Done():
-		x.Conn.Close()
+		if x.Conn != nil {
+			x.Conn.Close()
+		}
 		return nil, fmt.Errorf("snmp get cancelled")
 	case res := <-snmpRes:
 		return res.pkt, res.err
@@ -50,7 +54,9 @@ func (x *GoSNMP) GetNextWithCtx(ctx context.Context, oids []string) (result *Snm
 	}()
 	select {
 	case <-ctx.Done():
-		x.Conn.Close()
+		if x.Conn != nil {
+			x.Conn.Close()
+		}
 		return nil, fmt.Errorf("snmp get next cancelled")
 	case res := <-snmpRes:
 		return res.pkt, res.err
@@ -66,7 +72,9 @@ func (x *GoSNMP) GetBulkWithCtx(ctx context.Context, oids []string, nonRepeaters
 	}()
 	select {
 	case <-ctx.Done():
-		x.Conn.Close()
+		if x.Conn != nil {
+			x.Conn.Close()
+		}
 		return nil, fmt.Errorf("snmp get bulk cancelled")
 	case res := <-snmpRes:
 		return res.pkt, res.err
@@ -81,7 +89,9 @@ func (x *GoSNMP) WalkWithCtx(ctx context.Context, rootOid string, walkFn WalkFun
 	}()
 	select {
 	case <-ctx.Done():
-		x.Conn.Close()
+		if x.Conn != nil {
+			x.Conn.Close()
+		}
 		return fmt.Errorf("snmp walk cancelled")
 	case err := <-errCh:
 		return err
@@ -97,7 +107,9 @@ func (x *GoSNMP) BulkWalkWithCtx(ctx context.Context, rootOid string, walkFn Wal
 	}()
 	select {
 	case <-ctx.Done():
-		x.Conn.Close()
+		if x.Conn != nil {
+			x.Conn.Close()
+		}
 		return fmt.Errorf("snmp bulk walk cancelled")
 	case err := <-errCh:
 		return err

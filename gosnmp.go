@@ -288,6 +288,14 @@ func (x *GoSNMP) ConnectIPv6() error {
 	return x.connect("6")
 }
 
+// Close closes the network connection
+func (x *GoSNMP) Close() error {
+	if x.Conn == nil {
+		return nil
+	}
+	return x.Conn.Close()
+}
+
 // connect to address addr on the given network
 //
 // https://golang.org/pkg/net/#Dial gives acceptable network values as:

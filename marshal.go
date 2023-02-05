@@ -130,7 +130,7 @@ var (
 	ErrWrongDigest           = errors.New("wrong digest")
 )
 
-const rxBufSize = 65535 // max size of IPv4 & IPv6 packet
+const defaultRxBufSize = 65535 // max size of IPv4 & IPv6 packet
 
 // Logger is an interface used for debugging. Both Print and
 // Printf have the same interfaces as Package Log in the std library. The
@@ -1354,16 +1354,18 @@ func (x *GoSNMP) unmarshalVBL(packet []byte, response *SnmpPacket) error {
 	return nil
 }
 
-// receive response from network and read into a byte array
+// receive response from network and read into a byte slice
 func (x *GoSNMP) receive() ([]byte, error) {
 	var n int
 	var err error
+	buf := make([]byte, x.RxBufSize)
+
 	// If we are using UDP and unconnected socket, read the packet and
 	// disregard the source address.
 	if uconn, ok := x.Conn.(net.PacketConn); ok {
-		n, _, err = uconn.ReadFrom(x.rxBuf[:])
+		n, _, err = uconn.ReadFrom(buf)
 	} else {
-		n, err = x.Conn.Read(x.rxBuf[:])
+		n, err = x.Conn.Read(buf)
 	}
 	if err == io.EOF {
 		return nil, err
@@ -1371,14 +1373,11 @@ func (x *GoSNMP) receive() ([]byte, error) {
 		return nil, fmt.Errorf("error reading from socket: %w", err)
 	}
 
-	if n == rxBufSize {
-		// This should never happen unless we're using something like a unix domain socket.
+	if n == x.RxBufSize {
 		return nil, fmt.Errorf("response buffer too small")
 	}
 
-	resp := make([]byte, n)
-	copy(resp, x.rxBuf[:n])
-	return resp, nil
+	return buf[:n:n], nil
 }
 
 func shrinkAndWriteUint(buf io.Writer, in int) error {

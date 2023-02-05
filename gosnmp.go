@@ -141,11 +141,12 @@ type GoSNMP struct {
 	// - 'p,i,I,t,E' -> pull requests welcome
 	AppOpts map[string]interface{}
 
+	// RxBufSize is the size of the internal receive buffer; defaults to 65K if not set.
+	RxBufSize int
+
 	// Internal - used to sync requests to responses.
 	requestID uint32
 	random    uint32
-
-	rxBuf *[rxBufSize]byte // has to be pointer due to https://github.com/golang/go/issues/11728
 
 	// MsgFlags is an SNMPV3 MsgFlags.
 	MsgFlags SnmpV3MsgFlags
@@ -318,8 +319,6 @@ func (x *GoSNMP) connect(networkSuffix string) error {
 	// RequestID is Integer32 from SNMPV2-SMI and uses all 32 bits
 	x.requestID = x.random
 
-	x.rxBuf = new([rxBufSize]byte)
-
 	return nil
 }
 
@@ -383,6 +382,13 @@ func (x *GoSNMP) validateParameters() error {
 		if err != nil {
 			return err
 		}
+	}
+
+	if x.RxBufSize == 0 {
+		x.RxBufSize = defaultRxBufSize
+	}
+	if x.RxBufSize > defaultRxBufSize {
+		return fmt.Errorf("field RxBufSize value cannot exceed %d", defaultRxBufSize)
 	}
 
 	if x.Context == nil {

@@ -64,7 +64,7 @@ func (x *GoSNMP) GetNextWithCtx(ctx context.Context, oids []string) (result *Snm
 }
 
 // GetBulkWithCtx calls GetBulk with a context
-func (x *GoSNMP) GetBulkWithCtx(ctx context.Context, oids []string, nonRepeaters uint8, maxRepetitions uint8) (result *SnmpPacket, err error) {
+func (x *GoSNMP) GetBulkWithCtx(ctx context.Context, oids []string, nonRepeaters uint8, maxRepetitions uint32) (result *SnmpPacket, err error) {
 	snmpRes := make(chan snmpResult)
 	go func() {
 		pkt, err := x.GetBulk(oids, nonRepeaters, maxRepetitions)
